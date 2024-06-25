@@ -74,6 +74,24 @@ async function run() {
 
 
 
+     app.put('/user/role/:id',   async(req, res) => {
+      const id = req.params.id;
+      const filter = {_id: new ObjectId(id)};
+      const options = { upsert: true };
+      const updateUserDetails = req.body;
+
+      const User = {
+        $set: {
+          role: updateUserDetails.role,    
+        }
+      }
+
+      const result = await UserCollection.updateOne(filter, User, options);
+      res.send(result);
+     })
+
+
+
 
     // User Message
 
@@ -92,6 +110,27 @@ async function run() {
       const result = await MessageCollection.insertOne(newMessage);
       res.send(result);
     })
+
+
+    // Products Collection
+
+    const ProductsCollection = client.db('octalink').collection('products');
+
+
+    app.get('/products', async(req, res) => {
+      const cursor = ProductsCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+
+
+    app.post('/products', async(req, res) => {
+      const newProduct = req.body;
+      console.log(newProduct);
+      const result = await ProductsCollection.insertOne(newProduct);
+      res.send(result);
+    })
+
 
 
 
