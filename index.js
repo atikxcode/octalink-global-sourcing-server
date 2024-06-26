@@ -99,17 +99,45 @@ async function run() {
     const MessageCollection = client.db('octalink').collection('userMessage');
 
 
-    app.get('/newMessage', async(req, res) => {
+    app.get('/usermessage', async(req, res) => {
       const cursor = MessageCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     })
+
+
       app.post('/usermessage', async(req, res) => {
       const newMessage = req.body;
       console.log(newMessage);
       const result = await MessageCollection.insertOne(newMessage);
       res.send(result);
     })
+
+
+    app.put('/usermessage/status/:id', async(req, res) => {
+      const id = req.params.id;
+      const filter = {_id: new ObjectId(id)};
+      const options = { upsert: true };
+      const updateMessageDetails = req.body;
+
+      const Message = {
+        $set: {
+          status: updateMessageDetails.status,    
+        }
+      }
+
+      const result = await MessageCollection.updateOne(filter, Message, options);
+      res.send(result);
+     })
+
+
+     app.delete('/usermessage/:id', async(req, res) => {
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)};
+      const result = await MessageCollection.deleteOne(query);
+      res.send(result);
+    })
+
 
 
     // Products Collection
@@ -123,6 +151,13 @@ async function run() {
       res.send(result);
     })
 
+    app.get('/products/:id', async(req, res) => {
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const result = await ProductsCollection.findOne(query);
+      res.send(result);
+    })
+
 
     app.post('/products', async(req, res) => {
       const newProduct = req.body;
@@ -132,7 +167,43 @@ async function run() {
     })
 
 
+    app.put('/products/image/:id',  async(req, res) => {
+      const id = req.params.id;
+      const filter = {_id: new ObjectId(id)};
+      const options = { upsert: true };
+      const productDetails = req.body;
 
+      const Product = {
+        $set: {
+          category: productDetails.category,
+          subcategory: productDetails.subcategory,
+          image: productDetails.image,    
+           
+        }
+      }
+
+      const result = await ProductsCollection.updateOne(filter, Product, options);
+      res.send(result);
+     })
+
+
+     app.delete('/products/:id', async(req, res) => {
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)};
+      const result = await ProductsCollection.deleteOne(query);
+      res.send(result);
+    })
+
+
+
+    const ReviewCollection = client.db('octalink').collection('reviews');
+
+
+    app.get('/reviews', async(req, res) => {
+      const cursor = ReviewCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
 
 
 
