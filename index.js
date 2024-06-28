@@ -196,6 +196,9 @@ async function run() {
 
 
 
+    // Review Collection
+
+
     const ReviewCollection = client.db('octalink').collection('reviews');
 
 
@@ -206,7 +209,30 @@ async function run() {
     })
 
 
+    // Press File Collection
 
+
+ const PressFileCollection = client.db('octalink').collection('pressFile');
+
+
+ app.get('/pressfile', async(req, res) => {
+  const cursor = PressFileCollection.find();
+  const result = await cursor.toArray();
+  res.send(result);
+})
+
+
+    // FAQ File Collection
+
+
+ const FaqCollection = client.db('octalink').collection('faq');
+
+
+ app.get('/faq', async(req, res) => {
+  const cursor = FaqCollection.find();
+  const result = await cursor.toArray();
+  res.send(result);
+})
 
 
 
