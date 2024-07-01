@@ -10,8 +10,9 @@ app.use(cors({
     'http://localhost:5176',
     'http://localhost:5173',
     'http://localhost:5174',
-    'https://octalink-global-sourcing.netlify.app/',
-    'https://octalink-global-sourcing-server-5410kqvyf.vercel.app/'
+    'http://localhost:5175',
+    'https://octalink-global-sourcing.netlify.app',
+    'https://octalink-global-sourcing-server-5410kqvyf.vercel.app'
   ]
 }))
 app.use(express.json())
@@ -185,7 +186,10 @@ async function run() {
         $set: {
           category: productDetails.category,
           subcategory: productDetails.subcategory,
-          image: productDetails.image,    
+          image: productDetails.image,
+          fabricOrMaterial: productDetails.fabricOrMaterial,
+          designDetails:productDetails.designDetails,
+          sustainability:productDetails.sustainability   
            
         }
       }
