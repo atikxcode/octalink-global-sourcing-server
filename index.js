@@ -220,6 +220,13 @@ async function run() {
       res.send(result);
     })
 
+    app.post('/reviews', async(req, res) => {
+      const reviewDetails = req.body;
+      console.log(reviewDetails);
+      const result = await ReviewCollection.insertOne(reviewDetails);
+      res.send(result);
+    })
+
 
     // Press File Collection
 
